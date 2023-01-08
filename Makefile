@@ -1,7 +1,7 @@
 .PHONY: all
 all: build flash
 
-BINARY = blink
+BINARY = usb_host
 
 .PHONY: build
 build:
@@ -10,7 +10,15 @@ build:
 	&& cmake ..; \
 	make $(BINARY)
 
+.PHONY: reset
+reset:
+	openocd -f interface/picoprobe.cfg -f target/rp2040.cfg -c "init; reset; exit"
+
 .PHONY: flash
-flash:
+flash: reset
 	cd ./build; \
 	openocd -f interface/picoprobe.cfg -f target/rp2040.cfg -c "program $(BINARY).elf verify reset exit"
+
+.PHONY: clean
+clean:
+	@rm -rf ./build

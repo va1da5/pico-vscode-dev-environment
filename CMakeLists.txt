@@ -1,11 +1,12 @@
 # Set minimum required version of CMake
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)
 
 # Include build functions from Pico SDK
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+include($ENV{PICO_SDK_PATH}/tools/CMakeLists.txt)
 
 # Set name of project (as PROJECT_NAME) and C/C++ standards
-project(blink C CXX ASM)
+project(usb_host C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -13,16 +14,31 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 # Tell CMake where to find the executable source file
-add_executable(${PROJECT_NAME} 
-    src/main.cpp
+add_executable(${PROJECT_NAME})
+
+# In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_host
+# for TinyUSB device support and tinyusb_board for the additional board support library used by the example
+target_sources(${PROJECT_NAME}  PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/src/hid_app.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/main.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/msc_app.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/tusb_config.h
 )
+
+# Make sure TinyUSB can find tusb_config.h
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/src
+    )
 
 # Create map/bin/hex/uf2 files
 pico_add_extra_outputs(${PROJECT_NAME})
 
 # Link to pico_stdlib (gpio, time, etc. functions)
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME} PUBLIC
     pico_stdlib
+    tinyusb_host
+    tinyusb_board  
 )
 
 # Disable usb output, enable uart output

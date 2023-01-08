@@ -1,12 +1,6 @@
-# VS Code Dev Container Environment For Raspberry Pi Pico C/C++
+# Connecting USB HID Devices to Raspberry Pi Pico
 
-This project provides a ready-to-use portable development environment for Raspberry Pi Pico using C/C++ based on [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers).
-
-The environment is based on containers (*Podman to be specific*) which provides a easy to start way to run the development tools and libraries required for C/C++ development. The containers will be configured with all necessary dependencies and tools, such as a C/C++ compiler and debugger. The editor comes configured with extensions for C/C++ development, such as language support and debugging tools.
-
-## Udev Rules
-
-There might be some issues when mounting devices using root-less containers, such as when using Podman. Because of that there is a requirement to pre-configure UDEV rules for `openocd`. The repository includes [60-openocd.rules](./60-openocd.rules) file which needs to be placed in `etc/udev/rules.d/` and the [Picoprobe](https://github.com/raspberrypi/picoprobe) reconnected. Please note, that these rules were updated for Fedora OS. The original file can be found in [here](https://raw.githubusercontent.com/raspberrypi/openocd/rp2040/contrib/60-openocd.rules). [devcontainer.json](./devcontainer.json) contains custom run arguments with annotations for container runtime, like `run.oci.keep_original_groups=1`. It is meant to fix group membership issues and prevent missing permission errors when trying to access devices from container. Correct annotation needs to be used according to the container runtime (oci, crun).
+The module works on USB Host functionality natively supported by Pico. The end goal is to register certain joystick button presses and perform some actions.
 
 
 ## Flash Binaries
@@ -17,22 +11,32 @@ make build
 
 # flash binary directly using openocd
 make flash
+
+# reset Pico
+make reset
 ```
 
-## Picoprobe Wiring
 
-![wiring diagram](./picoprobe-conncetion.png)
+## Debugging
+
+```bash
+minicom -b 115200 -8 -D /dev/ttyACM0
+```
+
+## Wiring Diagram
+
+The Pico on the left is used for flashing Pico on the right. Keyboard or joystick should be attached to the Pico on the right with [USB OTG](https://en.wikipedia.org/wiki/USB_On-The-Go) cable.
+
+![diagram](./diagram.png)
 
 
 ## References
 
 - [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk)
-- [Raspberry Pi Pico and RP2040 - C/C++ Part 1: Blink and VS Code](https://www.digikey.lt/en/maker/projects/raspberry-pi-pico-and-rp2040-cc-part-1-blink-and-vs-code/7102fb8bca95452e9df6150f39ae8422)
-- [Raspberry Pi Pico and RP2040 - C/C++ Part 2: Debugging with VS Code](https://www.digikey.be/en/maker/projects/raspberry-pi-pico-and-rp2040-cc-part-2-debugging-with-vs-code/470abc7efb07432b82c95f6f67f184c0)
 - [Raspberry Pi Pico and Pico W](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html)
 - [RP2040 Datasheet](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf)
-- [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk)
-- [Picoprobe](https://github.com/raspberrypi/picoprobe)
-- [Getting started with Raspberry Pi Pico](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf)
-- [Picoprobe: Using the Raspberry Pi Pico as Debug Probe](https://mcuoneclipse.com/2022/09/17/picoprobe-using-the-raspberry-pi-pico-as-debug-probe/)
 
+- [raspberry pi pico - usb host](https://www.youtube.com/watch?v=yIXa-6DRW-Y)
+- [pico example: host_cdc_msc_hid](https://github.com/raspberrypi/pico-examples/tree/master/usb/host/host_cdc_msc_hid)
+- [Raspberry-shifter software](https://github.com/brendena/raspberry-shifter)
+- [Would you like to reset your Pico from the command line?](https://forums.raspberrypi.com/viewtopic.php?t=303028)
