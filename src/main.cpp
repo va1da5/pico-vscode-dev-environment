@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const int PULSE_WIDTH = 200;
+
 void blink(uint pin, int high_time_ms, int low_time_ms)
 {
     gpio_put(pin, 1);
@@ -22,13 +24,14 @@ void emit(vector<char> signals, int size, uint pin)
         switch (signal)
         {
         case '.':
-            blink(pin, 100, 50);
+            blink(pin, PULSE_WIDTH, PULSE_WIDTH);
             break;
         case '-':
-            blink(pin, 400, 150);
+            blink(pin, 3 * PULSE_WIDTH, PULSE_WIDTH);
             break;
+        default:
+            sleep_ms(2 * PULSE_WIDTH);
         }
-        sleep_ms(300);
     }
 }
 
@@ -38,7 +41,7 @@ int main()
 #warning blink example requires a board with a regular LED
 #else
 
-    vector<char> sos = {'.', '.', '.', '-', '-', '-', '.', '.', '.'};
+    vector<char> sos = {'.', '.', '.', ' ', '-', '-', '-', ' ', '.', '.', '.'};
 
     const uint LED_PIN = PICO_DEFAULT_LED_PIN;
     gpio_init(LED_PIN);
