@@ -19,6 +19,15 @@ make build
 make flash
 ```
 
+## Linting
+
+There is an option to enable C++ code linting functionality using [Clang-tidy](https://clang.llvm.org/extra/clang-tidy/). Install the linter using the commands below.
+
+```bash
+apt update && apt install clang-tidy
+
+```
+
 ## Picoprobe Wiring
 
 ![wiring diagram](./picoprobe-conncetion.png)

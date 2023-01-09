@@ -40,7 +40,11 @@
 			"extensions": [
 				"ms-vscode.cpptools",
 				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cmake-tools",
+				"ms-vscode.makefile-tools",
 				"marus25.cortex-debug",
+				"twxs.cmake",
+				"yzhang.markdown-all-in-one",
 				"aaron-bond.better-comments",
 				"EditorConfig.EditorConfig",
 				"redhat.vscode-yaml",

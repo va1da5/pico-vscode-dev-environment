@@ -10,16 +10,10 @@ RUN apt update \
     build-essential libtool automake libftdi-dev libusb-1.0-0-dev gcc texinfo checkinstall \
     libssl-dev libsqlite3-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev \
     gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib \
+    python3 python3-minimal python3-pkg-resources python3-pygments python3-yaml python3.10 python3.10-minimal \
     && apt -y clean \
     && apt -y autoremove \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -o Python-3.8.16.tgz https://www.python.org/ftp/python/3.8.16/Python-3.8.16.tgz \
-    && tar xzf Python-3.8.16.tgz \
-    && cd Python-3.8.16 \
-    && ./configure --enable-optimizations \
-    && make install \
-    && cd .. \
-    && rm -rf Python-3.8.16
+    && rm -rf /var/lib/apt/lists/*
 
 RUN git clone --branch rp2040 --recursive --depth=1  https://github.com/raspberrypi/openocd.git  \
     && cd openocd \
