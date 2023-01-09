@@ -1,5 +1,6 @@
 {
     "cmake.configureOnOpen": false,
+    "editor.formatOnSave": true,
     "files.associations": {
         "stdlib.h": "c",
         "pico.h": "c",
@@ -69,7 +70,22 @@
     "cmake.buildBeforeRun": true,
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+    "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+        "cppcoreguidelines-*",
+        "clang-analyzer-core.*"
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "cppcoreguidelines-avoid-*"
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "cSpell.words": [
-        "gamepad"
+        "crun",
+        "Datasheet",
+        "devcontainer",
+        "gpio",
+        "openocd",
+        "PICO",
+        "Picoprobe",
+        "Udev"
     ]
 }

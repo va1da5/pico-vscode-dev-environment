@@ -16,7 +16,6 @@ make flash
 make reset
 ```
 
-
 ## Debugging
 
 ```bash
