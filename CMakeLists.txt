@@ -21,7 +21,6 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}  PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/src/hid_app.c
     ${CMAKE_CURRENT_LIST_DIR}/src/main.c
-    ${CMAKE_CURRENT_LIST_DIR}/src/msc_app.c
     ${CMAKE_CURRENT_LIST_DIR}/src/tusb_config.h
 )
 
